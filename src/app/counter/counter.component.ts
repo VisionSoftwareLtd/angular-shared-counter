@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpCounterService } from '../http-counter.service';
 
 @Component({
   selector: 'app-counter',
@@ -9,17 +10,26 @@ export class CounterComponent implements OnInit {
 
   counter: number;
 
-  constructor() { }
+  constructor(private httpCounterService : HttpCounterService) { }
 
   ngOnInit(): void {
-    this.counter = 1;
+    this.httpCounterService.getCounter()
+      .subscribe((value) => {
+        this.counter = value;
+      });
   }
 
   onIncrement(): void {
-    this.counter += 1;
+    this.httpCounterService.increment()
+      .subscribe((value) => {
+        this.counter = value;
+      });
   }
 
   onDecrement(): void {
-    this.counter -= 1;
+    this.httpCounterService.decrement()
+      .subscribe((value) => {
+        this.counter = value;
+      });
   }
 }
