@@ -29,10 +29,10 @@ export class CounterComponent implements OnInit {
   }
 
   onIncrement(): void {
-    this.httpCounterService.increment().subscribe(unused => {});
+    this.httpCounterService.increment().subscribe(unused => {console.log(unused)});
   }
 
   onDecrement(): void {
-    this.httpCounterService.decrement().subscribe(unused => {});
+    this.httpCounterService.decrement().subscribe(unused => {console.log(unused)});
   }
 }

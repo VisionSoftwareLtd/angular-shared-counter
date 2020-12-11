@@ -32,6 +32,7 @@ export class HttpCounterService {
   }
 
   getCounter(): Observable<number> {
+    console.log(`http get to ${HttpCounterService.counterUrlGet}`);
     return this.http.get<number>(HttpCounterService.counterUrlGet)
       .pipe(
         catchError(this.handleError<number>('getCounter', -1))
@@ -39,6 +40,7 @@ export class HttpCounterService {
   }
 
   increment(): Observable<number> {
+    console.log(`http get to ${HttpCounterService.counterUrlIncrement}`);
     return this.http.get<number>(HttpCounterService.counterUrlIncrement)
       .pipe(
         catchError(this.handleError<number>('getCounter', -1))
@@ -46,6 +48,7 @@ export class HttpCounterService {
   }
 
   decrement(): Observable<number> {
+    console.log(`http get to ${HttpCounterService.counterUrlDecrement}`);
     return this.http.get<number>(HttpCounterService.counterUrlDecrement)
       .pipe(
         catchError(this.handleError<number>('getCounter', -1))
