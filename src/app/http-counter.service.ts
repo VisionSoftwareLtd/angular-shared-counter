@@ -37,6 +37,7 @@ export class HttpCounterService {
   }
 
   increment(): Observable<number> {
+    console.log("Incrementing?");
     return this.http.get<number>(HttpCounterService.counterUrlIncrement)
       .pipe(
         catchError(this.handleError<number>('getCounter', -1))

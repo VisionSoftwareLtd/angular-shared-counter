@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpCounterService } from '../http-counter.service';
+import { SocketCounterService } from '../socket-counter.service';
 
 @Component({
   selector: 'app-counter',
@@ -8,28 +9,30 @@ import { HttpCounterService } from '../http-counter.service';
 })
 export class CounterComponent implements OnInit {
 
-  counter: number;
+  counter: string = "Disconnected";
 
-  constructor(private httpCounterService : HttpCounterService) { }
+  constructor(private httpCounterService: HttpCounterService,
+              private socketCounterService: SocketCounterService) { }
 
   ngOnInit(): void {
-    this.httpCounterService.getCounter()
-      .subscribe((value) => {
-        this.counter = value;
-      });
+    var that = this;
+    this.socketCounterService.subscribe((data => {
+      var jsonData = JSON.parse(data);
+      console.log(`CounterComponent received data ${data}`);
+      if (jsonData.update) {
+        that.counter = jsonData.update.counter;
+      }
+      if (jsonData.status && jsonData.status == "Disconnected") {
+        that.counter = jsonData.status;
+      }
+    }));
   }
 
   onIncrement(): void {
-    this.httpCounterService.increment()
-      .subscribe((value) => {
-        this.counter = value;
-      });
+    this.httpCounterService.increment().subscribe(unused => {});
   }
 
   onDecrement(): void {
-    this.httpCounterService.decrement()
-      .subscribe((value) => {
-        this.counter = value;
-      });
+    this.httpCounterService.decrement().subscribe(unused => {});
   }
 }
