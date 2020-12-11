@@ -3,7 +3,7 @@ import express from 'express';
 import http from 'http';
 
 const EXPRESS_PORT = 8081;
-const WEB_SOCKET_PORT = 8082;
+const WEB_SOCKET_PORT = 8081;
 
 var app = express();
 
@@ -15,7 +15,7 @@ var counter = 0;
 
 var connections = [];
 
-const webSocketHttpServer = http.createServer();
+const webSocketHttpServer = http.createServer(app);
 const webSocketServer = new WebSocketServer.Server({ server: webSocketHttpServer });
 webSocketServer.on('connection', (webSocketClient, req) => {
    console.log(`Connection request from: ${req.connection.remoteAddress}`);
@@ -30,9 +30,9 @@ webSocketServer.on('connection', (webSocketClient, req) => {
    });
 });
 
-webSocketHttpServer.listen(WEB_SOCKET_PORT, () => {
-   console.log(`Websocket server started on port ${WEB_SOCKET_PORT}`)
-});
+// webSocketHttpServer.listen(WEB_SOCKET_PORT, () => {
+//    console.log(`Websocket server started on port ${WEB_SOCKET_PORT}`)
+// });
 
 /**
  * Express
@@ -67,7 +67,7 @@ app.get('/decrement', function (req, res) {
    commonResponse(res);
 })
 
-var httpServer = app.listen(EXPRESS_PORT, function () {
+var httpServer = webSocketHttpServer.listen(EXPRESS_PORT, function () {
    var host = httpServer.address().address
    var port = httpServer.address().port
    

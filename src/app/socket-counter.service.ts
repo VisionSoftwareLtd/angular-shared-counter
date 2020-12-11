@@ -6,13 +6,16 @@ import { observable, Subject, Subscription } from 'rxjs';
 })
 export class SocketCounterService {
 
+  static PORT: string = '8080';
+
   subject = new Subject();
   webSocket: WebSocket;
 
   constructor() { }
 
   connect() {
-    this.webSocket = new WebSocket('ws://localhost:8082');
+    // this.webSocket = new WebSocket(`ws://localhost:${SocketCounterService.PORT}`);
+    this.webSocket = new WebSocket(`ws://angular-shared-counter.herokuapp.com/:${SocketCounterService.PORT}`);
     var that = this;
     this.webSocket.onopen = function() {
       console.log('Connected');

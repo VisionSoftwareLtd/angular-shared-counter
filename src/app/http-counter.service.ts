@@ -8,8 +8,10 @@ import { catchError } from 'rxjs/operators';
 })
 export class HttpCounterService {
 
-  private static counterUrlBase = 'http://localhost:8081';
-  private static counterUrlGet = `${HttpCounterService.counterUrlBase}`;
+  private static PORT: string = '8080';
+
+  private static counterUrlBase = `http://angular-shared-counter.herokuapp.com:${HttpCounterService.PORT}`;
+  private static counterUrlGet = `${HttpCounterService.counterUrlBase}/get`;
   private static counterUrlIncrement = `${HttpCounterService.counterUrlBase}/increment`;
   private static counterUrlDecrement = `${HttpCounterService.counterUrlBase}/decrement`;
 
@@ -37,7 +39,6 @@ export class HttpCounterService {
   }
 
   increment(): Observable<number> {
-    console.log("Incrementing?");
     return this.http.get<number>(HttpCounterService.counterUrlIncrement)
       .pipe(
         catchError(this.handleError<number>('getCounter', -1))
