@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class HttpCounterService {
 
-  private static PORT: string = '8080';
+  private static PORT: string = '80';
 
   private static counterUrlBase = `http://angular-shared-counter.herokuapp.com:${HttpCounterService.PORT}`;
   private static counterUrlGet = `${HttpCounterService.counterUrlBase}/get`;
